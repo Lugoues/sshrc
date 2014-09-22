@@ -6,8 +6,8 @@ function sshrc() {
         if [ -d $SSHHOME/.sshrc.d ]; then
             files="$files .sshrc.d"
         fi
-        ssh -t ${*:1} "
-            export SSHHOME="'$(mktemp -d)'"
+        ssh -t "$@" "
+            export SSHHOME="'$(mktemp -d -t sshrc.XXX )'"
             echo $'"$(cat `which sshrc` | xxd -ps)"' | xxd -ps -r > "'$SSHHOME/sshrc'"
             chmod +x "'$SSHHOME/sshrc'"
             echo $'"$( cat << 'EOF' | xxd -ps
